@@ -13,3 +13,17 @@ ACoopPlatformerGameMode::ACoopPlatformerGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
+
+void ACoopPlatformerGameMode::HostLANGame()
+{
+	GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/ThirdPersonMap?listen");
+}
+
+void ACoopPlatformerGameMode::JoinLANGame()
+{
+	APlayerController *PlayerController = GetGameInstance()->GetFirstLocalPlayerController();
+	if (PlayerController) 
+	{
+		PlayerController->ClientTravel("192.168.1.1", TRAVEL_Absolute);
+	}
+}

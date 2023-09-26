@@ -13,6 +13,12 @@ class ACoopPlatformerGameMode : public AGameModeBase
 
 public:
 	ACoopPlatformerGameMode();
+
+	UFUNCTION(BlueprintCallable)
+	void HostLANGame();
+
+	UFUNCTION(BlueprintCallable)
+	void JoinLANGame();
 };
 
 
