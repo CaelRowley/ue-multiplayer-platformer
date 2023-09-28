@@ -87,9 +87,10 @@ void ACoopPlatformerCharacter::ServerRPCFunction_Implementation(int MyArg)
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("MyArg: %d"), MyArg));
 
-
-		AStaticMeshActor *StaticMeshActor = GetWorld()->SpawnActor<AStaticMeshActor>(AStaticMeshActor::StaticClass());
-
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = this;
+		AStaticMeshActor *StaticMeshActor = GetWorld()->SpawnActor<AStaticMeshActor>(SpawnParameters);
+		//StaticMeshActor->SetOwner(this); Can also set owner after creation like this
 		if (StaticMeshActor)
 		{
 			StaticMeshActor->SetReplicates(true);
