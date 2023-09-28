@@ -72,7 +72,7 @@ void ACoopPlatformerCharacter::BeginPlay()
 	}
 }
 
-void ACoopPlatformerCharacter::ServerRPCFunction_Implementation()
+void ACoopPlatformerCharacter::ServerRPCFunction_Implementation(int MyArg)
 {
 	if (!SphereMesh)
 	{
@@ -84,6 +84,9 @@ void ACoopPlatformerCharacter::ServerRPCFunction_Implementation()
 #if 0 // pound if statements, prevents compilation, can enable by changing 0->1
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Server: ServerRPCFunction_Implementation called"));
 #endif
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("MyArg: %d"), MyArg));
+
 
 		AStaticMeshActor *StaticMeshActor = GetWorld()->SpawnActor<AStaticMeshActor>(AStaticMeshActor::StaticClass());
 
@@ -108,6 +111,15 @@ void ACoopPlatformerCharacter::ServerRPCFunction_Implementation()
 			}
 		}
 	}
+}
+
+bool ACoopPlatformerCharacter::ServerRPCFunction_Validate(int MyArg)
+{
+	if (MyArg >= 10)
+	{
+		return true;
+	}
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////////
