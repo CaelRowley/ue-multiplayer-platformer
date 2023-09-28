@@ -3,6 +3,7 @@
 
 #include "MyBox.h"
 #include "Net/UnrealNetwork.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMyBox::AMyBox()
@@ -26,7 +27,8 @@ void AMyBox::BeginPlay()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Server"));
 
-		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreaseReplicatedVar, 1.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreaseReplicatedVar, 2.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::MulticastRPCExplode, 2.0f, false);
 	}
 	else
 	{
@@ -75,3 +77,22 @@ void AMyBox::DecreaseReplicatedVar()
 	}
 }
 
+void AMyBox::MulticastRPCExplode_Implementation()
+{
+	if (HasAuthority())
+	{
+		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::MulticastRPCExplode, 2.0f, false);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Server: MulticastRPCExplode_Implementation called"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Client %d: MulticastRPCExplode_Implementation called"), GPlayInEditorID));
+	}
+
+	if (!IsRunningDedicatedServer())
+	{
+		FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 100.0f);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionEffect, GetActorLocation(), 
+			FRotator::ZeroRotator, true, EPSCPoolMethod::AutoRelease);
+	}
+}
