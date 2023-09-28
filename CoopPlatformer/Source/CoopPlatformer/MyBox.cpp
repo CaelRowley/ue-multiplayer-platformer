@@ -11,7 +11,7 @@ AMyBox::AMyBox()
 	PrimaryActorTick.bCanEverTick = true;
 
 	ReplicatedVar = 100.0f;
-	bReplicates = true;
+	bReplicates = true; // Same as SetReplicates(true);
 }
 
 // Called when the game starts or when spawned
@@ -19,11 +19,14 @@ void AMyBox::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SetReplicates(true);
 	SetReplicateMovement(true);
 
 	if (HasAuthority() || GetLocalRole() == ROLE_Authority)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Server"));
+
+		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreaseReplicatedVar, 1.0f, false);
 	}
 	else
 	{
@@ -57,5 +60,18 @@ void AMyBox::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePr
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AMyBox, ReplicatedVar);
+}
+
+void AMyBox::DecreaseReplicatedVar()
+{
+	if (HasAuthority())
+	{
+		ReplicatedVar -= 1.0f;
+		OnRep_ReplicatedVar();
+		if (ReplicatedVar > 0)
+		{
+			GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreaseReplicatedVar, 1.0f, false);
+		}
+	}
 }
 
