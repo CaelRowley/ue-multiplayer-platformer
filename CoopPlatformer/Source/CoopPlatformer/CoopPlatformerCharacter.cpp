@@ -14,6 +14,7 @@
 #include "Net/UnrealNetwork.h"
 #include "Engine/StaticMeshActor.h"
 #include "Kismet/GameplayStatics.h"
+#include "Utils/MyUtils.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -86,7 +87,8 @@ void ACoopPlatformerCharacter::ServerRPCFunction_Implementation(int MyArg)
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Server: ServerRPCFunction_Implementation called"));
 #endif
 
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("MyArg: %d"), MyArg));
+		MyUtils::PrintDebug(FString::Printf(TEXT("MyArg: %d"), MyArg), FColor::Yellow);
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("MyArg: %d"), MyArg));
 
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Owner = this;
