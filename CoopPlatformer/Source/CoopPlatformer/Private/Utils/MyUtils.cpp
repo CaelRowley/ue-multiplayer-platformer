@@ -13,6 +13,9 @@ MyUtils::~MyUtils()
 
 void MyUtils::PrintDebug(const FString& Message, const FColor Color)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, Color, Message);
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, Color, Message);
+	}
 }
 
