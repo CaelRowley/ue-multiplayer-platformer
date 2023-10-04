@@ -16,6 +16,9 @@ void UMultiplayerSessionsSubsystem::Initialize(FSubsystemCollectionBase& Collect
 {
 	MyUtils::PrintDebug("MSS Initialize", FColor::Cyan);
 	IOnlineSubsystem* OnlineSubsystem = IOnlineSubsystem::Get();
+	CreateServerAfterDestroy = false;
+	DestroyServerName = "";
+
 
 	if (OnlineSubsystem)
 	{
@@ -27,6 +30,7 @@ void UMultiplayerSessionsSubsystem::Initialize(FSubsystemCollectionBase& Collect
 		{
 			MyUtils::PrintDebug("SessionInterface is valid");
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UMultiplayerSessionsSubsystem::OnCreateSessionComplete);
+			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UMultiplayerSessionsSubsystem::OnDestroySessionComplete);
 		}
 	}
 }
@@ -44,7 +48,19 @@ void UMultiplayerSessionsSubsystem::CreateServer(FString ServerName)
 		return;
 	}
 
+	
+
 	FName MySessionName = FName("Multiplayer Platformer");
+	FNamedOnlineSession* ExistingSession = SessionInterface->GetNamedSession(MySessionName);
+	if (ExistingSession)
+	{
+		MyUtils::PrintDebug("Session already found, destroying it!", FColor::Red);
+		CreateServerAfterDestroy = true;
+		DestroyServerName = ServerName;
+		SessionInterface->DestroySession(MySessionName);
+		return;
+	}
+
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
@@ -71,4 +87,16 @@ void UMultiplayerSessionsSubsystem::OnCreateSessionComplete(FName SessionName, b
 	{
 		GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/ThirdPersonMap?listen");
 	}
+}
+
+void UMultiplayerSessionsSubsystem::OnDestroySessionComplete(FName SessionName, bool WasSuccessful)
+{
+	MyUtils::PrintDebug(FString::Printf(TEXT("OnDestroySessionComplete, SessionName: %s, Success: %d"), *SessionName.ToString(), WasSuccessful));
+
+	if (CreateServerAfterDestroy)
+	{
+		CreateServerAfterDestroy = false;
+		CreateServer(DestroyServerName);
+	}
+
 }

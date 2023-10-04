@@ -25,14 +25,14 @@ void AMyBox::BeginPlay()
 
 	if (HasAuthority() || GetLocalRole() == ROLE_Authority)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Server"));
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, TEXT("On Server"));
 
 		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::DecreaseReplicatedVar, 2.0f, false);
 		GetWorld()->GetTimerManager().SetTimer(TestTimer, this, &AMyBox::MulticastRPCExplode, 2.0f, false);
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, TEXT("Client"));
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, TEXT("On Client"));
 	}
 }
 
