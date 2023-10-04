@@ -18,8 +18,15 @@ class UMultiplayerSessionsSubsystem : public UGameInstanceSubsystem
 public:
 	UMultiplayerSessionsSubsystem();
 
+	IOnlineSessionPtr SessionInterface;
+	
 	void Initialize(FSubsystemCollectionBase& Collection) override;
 	void Deinitialize() override;
 
-	IOnlineSessionPtr SessionInterface;
+	UFUNCTION(BlueprintCallable)
+	void CreateServer(FString ServerName);
+	UFUNCTION(BlueprintCallable)
+	void FindServer(FString ServerName);
+
+	void OnCreateSessionComplete(FName SessionName, bool WasSuccessful);
 };
