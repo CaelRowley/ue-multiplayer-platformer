@@ -46,7 +46,8 @@ void UMultiplayerSessionsSubsystem::CreateServer(FString ServerName)
 {
 	if (ServerName.IsEmpty())
 	{
-		MyUtils::PrintDebug("CreateServer, ServerName cannot be empty!", FColor::Red);
+		MyUtils::PrintDebug("CreateServer: ServerName cannot be empty!", FColor::Red);
+		ServerCreateDelegate.Broadcast(false);
 		return;
 	}
 
@@ -78,7 +79,8 @@ void UMultiplayerSessionsSubsystem::FindServer(FString ServerName)
 {
 	if (ServerName.IsEmpty())
 	{
-		MyUtils::PrintDebug("Server name cannot be empty!");
+		MyUtils::PrintDebug("FindServer: Server name cannot be empty!");
+		ServerJoinDelegate.Broadcast(false);
 		return;
 	}
 
@@ -101,6 +103,7 @@ void UMultiplayerSessionsSubsystem::FindServer(FString ServerName)
 void UMultiplayerSessionsSubsystem::OnCreateSessionComplete(FName SessionName, bool WasSuccessful)
 {
 	MyUtils::PrintDebug(FString::Printf(TEXT("OnCreateSessionComplete: %d"), WasSuccessful));
+	ServerCreateDelegate.Broadcast(WasSuccessful);
 
 	if (WasSuccessful)
 	{
@@ -163,12 +166,15 @@ void UMultiplayerSessionsSubsystem::OnFindSessionsComplete(bool WasSuccessful)
 	else
 	{
 		MyUtils::PrintDebug("0 sessions found.");
+		ServerJoinDelegate.Broadcast(false);
 	}
 
 }
 
 void UMultiplayerSessionsSubsystem::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
+	ServerJoinDelegate.Broadcast(Result == EOnJoinSessionCompleteResult::Success);
+
 	if (Result == EOnJoinSessionCompleteResult::Success)
 	{
 		FString Msg = FString::Printf(TEXT("Successfully joined session %s"), *SessionName.ToString());
