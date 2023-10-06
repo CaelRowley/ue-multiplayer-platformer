@@ -6,16 +6,13 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
 #include "OnlineSessionSettings.h"
+#include "Online/OnlineSessionNames.h"
 
 #include "MultiplayerSessionsSubsystem.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerCreateDelegate, bool, WasSuccessful);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerJoinDelegate, bool, WasSuccessful);
 
-
-/**
- * 
- */
 UCLASS()
 class UMultiplayerSessionsSubsystem : public UGameInstanceSubsystem
 {
@@ -39,7 +36,7 @@ public:
 	void OnFindSessionsComplete(bool WasSuccessful);
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
-	bool CreateServerAfterDestroy;
+	bool ShouldCreateServerAfterDestroy;
 	FString DestroyServerName;
 	FString ServerNameToFind;
 	FName MySessionName;
@@ -51,5 +48,4 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FServerJoinDelegate ServerJoinDelegate;
-
 };
