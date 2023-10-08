@@ -85,7 +85,6 @@ void UMultiplayerSessionsSubsystem::FindServer(FString ServerName)
 	SessionSearch->bIsLanQuery = IOnlineSubsystem::Get()->GetSubsystemName() == "NULL";
 	SessionSearch->MaxSearchResults = 9999;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
-	//SessionSearch->QuerySettings.Set(FName(TEXT("PRESENCESEARCH")), true, EOnlineComparisonOp::Equals);
 	
 	ServerNameToFind = ServerName;
 
@@ -99,7 +98,8 @@ void UMultiplayerSessionsSubsystem::OnCreateSessionComplete(FName SessionName, b
 
 	if (WasSuccessful)
 	{
-		GetWorld()->ServerTravel("/Game/ThirdPerson/Maps/ThirdPersonMap?listen");
+		FString Path = !GameMapPath.IsEmpty() ? GameMapPath : "/Game/ThirdPerson/Maps/ThirdPersonMap";
+		GetWorld()->ServerTravel(FString::Printf(TEXT("%s?listen"), *Path));
 	}
 }
 
