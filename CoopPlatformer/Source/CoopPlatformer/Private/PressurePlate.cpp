@@ -79,6 +79,7 @@ void APressurePlate::Tick(float DeltaTime)
 		{
 			if (!Activated)
 			{
+				OnActivated.Broadcast();
 				Activated = true;
 				MyUtils::PrintDebug(TEXT("Activated"), FColor::White);
 			}
@@ -87,6 +88,7 @@ void APressurePlate::Tick(float DeltaTime)
 		{
 			if (Activated)
 			{
+				OnDeactivated.Broadcast();
 				Activated = false;
 				MyUtils::PrintDebug(TEXT("Deactivated"), FColor::White);
 			}

@@ -13,5 +13,5 @@ public:
 	MyUtils();
 	~MyUtils();
 
-	static void PrintDebug(const FString& Message, const FColor Color = FColor::Green);
+	static void PrintDebug(const FString& Message, const FColor Color = FColor::White);
 };
