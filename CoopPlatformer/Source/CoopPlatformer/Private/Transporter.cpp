@@ -40,14 +40,7 @@ void UTransporter::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (TriggerActors.Num() > 0)
-	{
-		AllTriggerActorsTriggered = (ActivatedTriggerCount >= TriggerActors.Num());
-		if (AllTriggerActorsTriggered)
-		{
-			MyUtils::PrintDebug(FString("AllTriggerActorsTriggered!"));
-		}
-	}
+	AllTriggerActorsTriggered = (ActivatedTriggerCount >= TriggerActors.Num());
 
 	AActor* MyOwner = GetOwner();
 	if (MyOwner && MyOwner->HasAuthority() && ArePointsSet)

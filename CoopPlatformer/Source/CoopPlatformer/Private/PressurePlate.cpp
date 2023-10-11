@@ -42,6 +42,9 @@ APressurePlate::APressurePlate()
 		Mesh->SetRelativeScale3D(FVector(4.0f, 4.0f, 0.5f));
 		Mesh->SetRelativeLocation(FVector(0.0f, 0.0f, 7.2f));
 	}
+
+	TravelDistance = 10.0f;
+	TravelTime = 0.05f;
 }
 
 // Called when the game starts or when spawned
@@ -51,6 +54,9 @@ void APressurePlate::BeginPlay()
 
 	TriggerMesh->SetVisibility(false);
 	TriggerMesh->SetCollisionProfileName(FName("OverlapAll"));
+
+	StartPoint = GetActorLocation();
+	EndPoint = GetActorLocation() - FVector(0.0f, 0.0f, TravelDistance);
 }
 
 // Called every frame
@@ -81,7 +87,6 @@ void APressurePlate::Tick(float DeltaTime)
 			{
 				OnActivated.Broadcast();
 				Activated = true;
-				MyUtils::PrintDebug(TEXT("Activated"), FColor::White);
 			}
 		}
 		else
@@ -90,8 +95,16 @@ void APressurePlate::Tick(float DeltaTime)
 			{
 				OnDeactivated.Broadcast();
 				Activated = false;
-				MyUtils::PrintDebug(TEXT("Deactivated"), FColor::White);
 			}
+		}
+
+		FVector CurrentLocation = GetActorLocation();
+		FVector TargetLocation = TriggerActor ? EndPoint : StartPoint;
+		float Speed = FVector::Distance(CurrentLocation, TargetLocation) / TravelTime;
+		if (!CurrentLocation.Equals(TargetLocation))
+		{
+			FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
+			SetActorLocation(NewLocation);
 		}
 	}
 }

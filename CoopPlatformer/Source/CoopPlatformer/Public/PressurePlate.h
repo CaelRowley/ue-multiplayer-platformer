@@ -27,6 +27,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere)
+	float TravelDistance;
+	UPROPERTY(EditAnywhere)
+	float TravelTime;
+	FVector StartPoint;
+	FVector EndPoint;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	USceneComponent* RootComp;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
