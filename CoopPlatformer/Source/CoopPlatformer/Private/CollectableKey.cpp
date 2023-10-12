@@ -84,5 +84,10 @@ void ACollectableKey::OnRep_IsCollected()
 
 	Mesh->SetVisibility(!IsCollected);
 	CollectAudio->Play();
+
+	if (KeyHolderRef)
+	{
+		KeyHolderRef->ActivateKeyMesh();
+	}
 }
 
