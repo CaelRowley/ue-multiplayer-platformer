@@ -12,6 +12,8 @@
 
 #include "CollectableKey.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCollectableKeyOnCollected);
+
 UCLASS()
 class COOPPLATFORMER_API ACollectableKey : public AActor
 {
@@ -52,4 +54,5 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UAudioComponent* CollectAudio;
 
+	FCollectableKeyOnCollected OnCollected;
 };
