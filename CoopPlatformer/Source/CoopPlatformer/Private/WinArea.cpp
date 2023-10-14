@@ -19,7 +19,6 @@ AWinArea::AWinArea()
 void AWinArea::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AWinArea::Tick(float DeltaTime)
@@ -37,8 +36,16 @@ void AWinArea::Tick(float DeltaTime)
 			if (WinCondition)
 			{
 				MyUtils::PrintDebug(TEXT("WINNER WINNER CHICKEN DINNER!"));
+
+				MulticastRPCWin();
 			}
 		}
 	}
 }
+
+void AWinArea::MulticastRPCWin_Implementation()
+{
+	OnWinCondition.Broadcast();
+}
+
 
