@@ -89,3 +89,12 @@ CoopPlatformer/Build/Android/res/*/*
 # Ignore plugins binaries on deep subfolders
 CoopPlatformer/Plugins/**/Binaries/*
 CoopPlatformer/Plugins/**/Intermediate/*
+
+# Exports
+Exports/Android/
+Exports/IOS/
+Exports/Linux/
+Exports/LinuxArm64/
+Exports/TVOS/
+Exports/Windows/
+Exports/Mac/
