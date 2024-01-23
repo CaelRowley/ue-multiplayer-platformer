@@ -12,7 +12,7 @@ Create and join online gameplay sessions utilising the [Online Subsystem Steam](
 
 ## To play
 
-On windows you can extract the build from `export/windows.7z` and run the executable.
+On windows you can extract the build from `export/windows.zip` and run the executable.
 
 Or you can use unreal engine 5 and import the project and run it from in the engine.
 
