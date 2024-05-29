@@ -11,13 +11,13 @@ Create and join online gameplay sessions utilising the [Online Subsystem Steam](
 
 You must solve the puzzles and collect all the keys to unlock the door to the pyramid and win the game.
 
-![Screenshot__13_](/uploads/a9eb367deaeae223224571da483e4260/Screenshot__13_.png)
+![image](https://github.com/CaelRowley/ue-multiplayer-platformer/assets/9076746/ffe90983-c3af-4c14-8478-a8f69c693bfe)
 
-![Screenshot__9_](/uploads/2225bb12c19260d3b03f736eb5e36d0c/Screenshot__9_.png)
+![image](https://github.com/CaelRowley/ue-multiplayer-platformer/assets/9076746/187af880-0fed-4a62-af5a-f1684d72c782)
 
-![Screenshot__15_](/uploads/e0b2064ef07af0005ea29677ee9d5678/Screenshot__15_.png)
+![image](https://github.com/CaelRowley/ue-multiplayer-platformer/assets/9076746/77054de7-0eb1-4b63-94e6-20641bd3915f)
 
-![Screenshot__12_](/uploads/b02773d139c876a54be6c094808965c8/Screenshot__12_.png)
+![image](https://github.com/CaelRowley/ue-multiplayer-platformer/assets/9076746/64b08de8-a51d-4b2c-977c-71bf29057b81)
 
 ## To play
 
